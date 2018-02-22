@@ -9,7 +9,7 @@ some user intervention is needed becuase of the way the secrets work
 * or Packer_Newly_Created_AMI.tf
 
 2. Then chmod +x runme.sh, wordpress_updated.sh, wordpress_wpconfig.sh
-./runme.sh
+`./runme.sh`
 
 BEFORE RUNNING THE SCRIPT NOTE: The script by deafult will assume you have set up the AWS credentials this way via the AWS command line 
 I plan to relase an update to the Hashicorp suite install script to add the AWS secret and Acess keys via the .aws folder
