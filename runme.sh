@@ -78,9 +78,9 @@ EOF
 
 sleep 2
 
-sed -i.bak 's/$TERRAFORM_DATABBASE_ENDPOINT/dbhost' wordpress_wpconfig.sh
-sed -i 's/$TERRAFORM_DATABBASE_USERNAME/dbusername' wordpress_wpconfig.sh
-sed -i 's/$TERRAFORM_DATABASE_PASSWORD/dbpassword' wordpress_wpconfig.sh
+sed -i.bak 's/dbhost/'$TERRAFORM_DATABBASE_ENDPOINT'/' wordpress_wpconfig.sh
+sed -i 's/dbusername/'$TERRAFORM_DATABBASE_USERNAME'/' wordpress_wpconfig.sh
+sed -i 's/dbpassword/'$TERRAFORM_DATABASE_PASSWORD'/' wordpress_wpconfig.sh
 
 #a terraform.tsstate file should be created 
 #when the terraform code executes sucessfully 
