@@ -193,10 +193,10 @@ echo "configuring nginx"
 nginx_conf
 echo "installing mariadb"
 sleep 1
-mariad_install
-echo "configuring mariadb"
-sleep 1
-mariadb_conf
+#mariad_install
+#echo "configuring mariadb"
+#sleep 1
+#mariadb_conf
 echo "installing php"
 php_install
 sleep 1
