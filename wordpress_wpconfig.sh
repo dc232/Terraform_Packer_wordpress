@@ -1,5 +1,6 @@
 #!/bin/bash
 #cd /usr/share/nginx/html
+SALTS=$(curl https://api.wordpress.org/secret-key/1.1/salt/)
 cat << "EOF" >> /var/www/html/wp-config.php
 <?php
 /**
@@ -49,15 +50,7 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         '?bru(VEX<W`hUDI(CTjk_H;OyGI<WO{B4**Duou&RxRqOeAi{c#sI(Isb(YKbB?)');
-define('SECURE_AUTH_KEY',  ';,s<pZ[@}&O`~:E }b(AL#4<PZ]dQm%I]nRTGbCxm!VI*)69*z=>].Z$&|J>ZYr~');
-define('LOGGED_IN_KEY',    'eK a_p*ja=b.C</aX2VqSntS@x6kHfeL&baw)@;Mh_n x8:yS0H&I5&#&$%xAMAI');
-define('NONCE_KEY',        'c80ljK)&[C,c%tSxsJLjHhEPX=1(1%]$r1{Ff7N)?(GbC)Is^krN.-P^Rjx36C{j');
-define('AUTH_SALT',        '+P@D#LQ@`2KL+c}@qC%Ka{H_mO*u)EZ3|]JID]mFk[jY139uD?^b%r{7[}:Fsju,');
-define('SECURE_AUTH_SALT', 'fmgPrB[[I 4LITaH}W#s_zxBl7_g|_H%1L4Pwng`yh6b`M>>-f6h<7$RqKjXDK!j');
-define('LOGGED_IN_SALT',   'Gw.<slu{OP~NF@{e XMb:tzQ$sOWM,g@#f@PlIgzc5 UCdn^Rk4:R!Y89D$c0(<,');
-define('NONCE_SALT',       '[Pv@uA[D+<mt8v2lShH>G_$A^=U-5bGzXaC#^gUx$@)sm{=X/_[xMdaVNu4wJ|_2');
-
+$SALTS
 /**#@-*/
 
 /**
