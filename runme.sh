@@ -64,7 +64,11 @@ terraform apply -auto-approve #auto-approve allows for the suppression of confir
 #as plan but promts us to approve the changes before applying thats the only diffrece between them
 echo "showing terraform computed changes"
 sleep 1 
-terraform show
+terraform state show
+#a terraform.tsstate file should be created 
+#when the terraform code executes sucessfully 
+#the command will show the attributes assioated 
+#with the Amazon Resource we just created
 else
 echo "installing packer to /usr/bin/terraform "
 wget https://releases.hashicorp.com/packer/$TERRAFORM_VERSION/packer_"$TERRAFORM_VERSION"_linux_amd64.zip
