@@ -34,9 +34,37 @@ fi
 
 terraform_check () {
 if [ "$TERRAFORM_BIN" ]; then
-echo "executing teraform script"
-teraform RDS.tf
+cat << EOF
+#######################################################
+executing terraform script, Please not that this script
+will check for the  ~/.aws/credentials file 1st as the 
+AWS secret and Acess keys are explicted difined in the 
+RDS.tf scriptm If you need to set them explicitly 
+please see RDS.tf
+######################################################
+EOF 
+sleep 7
+echo "Initialising terraform backend which means that it will look for the AWS service provider plugin"
+sleep 2
+terraform init
+cat <<EOF
+######################################################
+running terraform plan to see the changes brought about in the AWS infrastructure, 
+the terraform apply command works for terraform 0.11 and 
+above directly before the appliction of terraform plan
+######################################################
+EOF
+sleep 4 
+terraform plan
+echo "running terraform apply"
 sleep 1
+terraform apply -auto-approve #auto-approve allows for the suppression of confirmation promts and automatically 
+#deploys the infrasture we still know what changes 
+#thanks to terraform plan altohugh terraform apply now does the same thing 
+#as plan but promts us to approve the changes before applying thats the only diffrece between them
+echo "showing terraform computed changes"
+sleep 1 
+terraform show
 else
 echo "installing packer to /usr/bin/terraform "
 wget https://releases.hashicorp.com/packer/$TERRAFORM_VERSION/packer_"$TERRAFORM_VERSION"_linux_amd64.zip
@@ -55,4 +83,5 @@ install it
 EOF
 
 sleep 5
-PACKER_BIN
+packer_run
+terraform_check
