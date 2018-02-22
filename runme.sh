@@ -64,11 +64,29 @@ terraform apply -auto-approve #auto-approve allows for the suppression of confir
 #as plan but promts us to approve the changes before applying thats the only diffrece between them
 echo "showing terraform computed changes"
 sleep 1 
-terraform state show
+terraform state show 
+TERRAFORM_DATABBASE_ENDPOINT=$(terraform state show | grep endpoint | sed 's/endpoint//g' | tr -d = | tr -d ' ')
+TERRAFORM_DATABBASE_USERNAME=$(terraform state show | grep username | sed 's/username//g' | tr -d = | tr -d ' ')
+TERRAFORM_DATABASE_PASSWORD=$(terraform state show | grep password | sed 's/password//g' | tr -d = | tr -d ' ')
+
+cat << EOF
+######################################################
+Substituting password, username and database endpoint
+for the computed values
+######################################################
+EOF
+
+sleep 2
+
+sed -i.bak 's/$TERRAFORM_DATABBASE_ENDPOINT/dbhost' wordpress_wpconfig.sh
+sed -i 's/$TERRAFORM_DATABBASE_USERNAME/dbusername' wordpress_wpconfig.sh
+sed -i 's/$TERRAFORM_DATABASE_PASSWORD/dbpassword' wordpress_wpconfig.sh
+
 #a terraform.tsstate file should be created 
 #when the terraform code executes sucessfully 
 #the command will show the attributes assioated 
 #with the Amazon Resource we just created
+# the tr command means translate or delete characters -d operand meand delete white space
 else
 echo "installing packer to /usr/bin/terraform "
 wget https://releases.hashicorp.com/packer/$TERRAFORM_VERSION/packer_"$TERRAFORM_VERSION"_linux_amd64.zip
@@ -87,5 +105,6 @@ install it
 EOF
 
 sleep 5
-packer_run
 terraform_check
+packer_run
+

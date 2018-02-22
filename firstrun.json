@@ -40,6 +40,10 @@
         {
             "type": "shell",
             "script": "./wordpress_updated.sh"
+        },
+        {
+            "type": "shell",
+            "script": "./wordpress_wpconfig.sh"
         }
     ]
 }
