@@ -4,8 +4,9 @@ some user intervention is needed becuase of the way the secrets work
 
 To make it work simply ensure that you specifiy your AWS credentials either in:
 
-* ~/.aws/credentials
+* ~/.aws/credentials (This will cater for both terraform files)
 * or within RDS.tf
+* or Packer_Newly_Created_AMI.tf
 
 Then chmod +x runme.sh
 ./runme.sh
