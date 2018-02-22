@@ -1,7 +1,7 @@
 #!/bin/bash
 #cd /usr/share/nginx/html
 SALTS=$(curl https://api.wordpress.org/secret-key/1.1/salt/)
-cat << "EOF" >> /var/www/html/wp-config.php
+cat << EOF >> /var/www/html/wp-config.php
 <?php
 /**
  * The base configuration for WordPress
@@ -59,7 +59,7 @@ $SALTS
  * You can have multiple installations in one database if you give each
  * a unique prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix  = 'wp_';
+\$table_prefix  = 'wp_';
 
 /**
  * For developers: WordPress debugging mode.
