@@ -11,8 +11,5 @@ some user intervention is needed becuase of the way the secrets work
 2. Then `chmod +x runme.sh, wordpress_updated.sh, wordpress_wpconfig.sh`
 3. `./runme.sh`
 
-BEFORE RUNNING THE SCRIPT NOTE: The script by deafult will assume you have set up the AWS credentials this way via the AWS command line 
-I plan to relase an update to the Hashicorp suite install script to add the AWS secret and Acess keys via the .aws folder
-
 Salt information will now populate automatically in the wordpress_wpconfig.sh file
 
