@@ -6,6 +6,8 @@ packer_run () {
 ####################################
 PACKER_BIN=$(which packer)
 PACKER_VERSION="1.2.0"
+TERRAFORM_BIN=$(which terraform)
+TERRAFORM_VERSION="0.11.3"
 
 if [ "$PACKER_BIN" ]; then
 echo "validating packer"
@@ -19,7 +21,7 @@ wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_"$PACKER_VERSI
 sudo unzip packer_"$PACKER_VERSION"_linux_amd64.zip -d /usr/bin
 cat << EOF
 #####################################
-Checking to see that packe  has been 
+Checking to see that packer has been 
 installed
 #####################################
 EOF
@@ -28,6 +30,20 @@ packer
 packer version
 fi
 }
+
+
+terraform_check () {
+if [ "$TERRAFORM_BIN" ]; then
+echo "executing teraform script"
+teraform RDS.tf
+sleep 1
+else
+echo "installing packer to /usr/bin/terraform "
+wget https://releases.hashicorp.com/packer/$TERRAFORM_VERSION/packer_"$TERRAFORM_VERSION"_linux_amd64.zip
+sudo unzip packer_"$TERRAFORM_VERSION"_linux_amd64.zip -d /usr/bin
+fi
+}
+
 
 cat <<EOF
 ################################

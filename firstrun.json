@@ -39,7 +39,7 @@
         },
         {
             "type": "shell",
-            "script": "./example.sh"
+            "script": "./wordpress_updated.sh"
         }
     ]
 }

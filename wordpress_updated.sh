@@ -9,8 +9,14 @@ UBUNTU_SOURCE_LIST="/etc/apt/sources.list"
 
 
 diags () {
+echo "showing mariadb server satus"
 systemctl status mariadb-server.service
+sleep 1 
+echo "showing nginx status"
 systemctl status ngix.service
+sleep 1 
+echo "showing php status"
+sudo systemctl status php7.1-fpm.service
 }
 
 
@@ -35,9 +41,7 @@ sleep 1
 sed -i 's/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.1/cli/php.ini
 echo "restarting service"
 sudo systemctl restart php7.1-fpm.service
-sleep 1 
-echo "showing php status"
-sudo systemctl status php7.1-fpm.service
+
 }
 
 mariad_install () {
@@ -148,7 +152,7 @@ server {
         }
 }
 EOF
-
+nginx -t
 }
 
 nginx_install () {
@@ -198,6 +202,7 @@ php_install
 sleep 1
 echo "configuring php"
 php_conf
+echo "displaying "
 else
 echo "This script cannot run on this system at the present moment"
 exit 0
@@ -205,15 +210,17 @@ fi
 }
 
 
-
 cat <<EOF
 #################################
 This script is desighned to 
 install wordpress on AWS VM
 Ubuntu
+It is desighned to be used with
+the Hasicorp Suite script that 
+I have created
 #################################
 EOF
 
-sleep 1
+sleep 5
 
 overall_install
