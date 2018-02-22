@@ -14,7 +14,8 @@ echo "validating packer"
 sleep 1
 packer validate fistrun.json
 sleep 1
-packer fistrun.json
+echo "Building packer iamge from fistrun.json, please ensure AWS secret and Access keys have been specified/setup as well as AWS Region"
+packer build fistrun.json
 else
 echo "installing packer to /usr/bin/packer "
 wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_"$PACKER_VERSION"_linux_amd64.zip
