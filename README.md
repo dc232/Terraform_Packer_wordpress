@@ -12,9 +12,9 @@ This base model houses the following
 Please uncomment the following in wordpress_updated.sh to use MariaDB locally
 
 * #mariad_install
-- #echo "configuring mariadb"
-- #sleep 1
-- #mariadb_conf
+* #echo "configuring mariadb"
+* #sleep 1
+* #mariadb_conf
 
 Then also comment the function `terraform_check` in runme.sh to use MariaDB locally
 
