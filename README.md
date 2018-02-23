@@ -18,7 +18,7 @@ Please uncomment the following in wordpress_updated.sh to use MariaDB locally
 
 Then also comment the function `terraform_check` in runme.sh to use MariaDB locally
 
-I will provide an additional script that can be run to allow for local DB installs in the futre
+I will provide an additional script that can be run to allow for local DB installs in the future
 
 
 1. To make it work simply ensure that you specify your AWS credentials either in:
