@@ -1,7 +1,8 @@
 #!/bin/bash
 #cd /usr/share/nginx/html
 SALTS=$(curl https://api.wordpress.org/secret-key/1.1/salt/)
-cat << EOF >> /var/www/html/wp-config.php
+mv /var/www/html/wordpress/wp-config.php /var/www/html/wordpress/wp-config.php.bak
+cat << EOF >> /var/www/html/wordpress/wp-config.php
 <?php
 /**
  * The base configuration for WordPress
