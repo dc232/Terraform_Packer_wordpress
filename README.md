@@ -4,7 +4,7 @@ Some user intervention is needed because of the way the secrets work
 
 This base model houses the following
 
-* The latest version of Nginx stable form the official repositories
+* The latest version of Nginx stable from the official repositories
 * PHP 7.1 from the ondrej/php repository
 * MariaDB 10.2 from the official repository
 * The latest version of WordPress
