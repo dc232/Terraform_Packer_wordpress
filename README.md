@@ -36,10 +36,10 @@ Salt information will now populate automatically in the wordpress_wpconfig.sh fi
 * Nginx caching
 * Reddis integration 
 * SSL integration
-* Carridge return linting (incase ^M is seen on standard out when cating the wp-config file)
+* Carridge return linting (incase ^M is seen on standard out when cating the wp-config file) (uncessary as all files are LF not CRLF)
 * symlinks to `/var/log/nginx` and`/var/log/php` for systems administrator debuging
 * symlinks to `/etc/php` to adjust the `php.ini` file parameters (this may be added to the script in the future)
-* Elastic IP address association with the newly created AMI
+* Elastic IP address association with the newly created AMI (now added)
 * Security Group association to open up port 22 and 80 for remote management (maybe via ansible/chef) and viewing, SSl port 443 will be added later on
-* WP-CLI support to install plugins (will add to allow plugins to be installed via code)
+* WP-CLI support to install plugins (will add to allow plugins to be installed via code) (Has now been added)
 
