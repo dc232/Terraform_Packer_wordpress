@@ -25,6 +25,15 @@ wp_cli () {
         echo "checking that binary exists for file wp"
         sleep 1
         which wp
+        echo "checking to see if wp-cli is installed correctly"
+        wp --info
+        echo "adding tab completion"
+        sleep 1
+        wget --progress=bar:force https://raw.githubusercontent.com/wp-cli/wp-cli/master/utils/wp-completion.bash -P ~
+        echo "sourcing wp-completion.bash to ~/.profile"
+        sleep 1
+        source ~/wp-completion.bash
+        source ~/.profile
 }
 
 diags () {
@@ -134,7 +143,7 @@ sleep 1
 
 echo "installing zip"
 apt-get install zip unzip -y
-wget https://wordpress.org/latest.zip
+wget --progress=bar:force https://wordpress.org/latest.zip
 unzip latest.zip
 #mv wordpress/* /var/www/html/
 mv wordpress/ /var/www/html/
@@ -193,7 +202,7 @@ sleep 6
 
 echo "Downloading key"
 sleep 1
-wget http://nginx.org/keys/nginx_signing.key
+wget --progress=bar:force http://nginx.org/keys/nginx_signing.key
 echo "adding nginx repos to the $UBUNTU_SOURCE_LIST"
 sleep 1
 echo deb http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
