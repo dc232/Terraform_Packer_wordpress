@@ -7,6 +7,13 @@ OS_CHECK="$(grep debian /etc/os-release)"
 OS_CODENAME=$(grep VERSION_CODENAME /etc/os-release | sudo sed '/VERSION_CODENAME/,$!d' /etc/os-release | sed 's/UBUNTU_CODENAME=xenial//g' | sed 's/VERSION_CODENAME=//g')
 UBUNTU_SOURCE_LIST="/etc/apt/sources.list"
 
+symlinks () {
+        echo "creating symlinks for nginx and php"
+        sleep 1
+        ln -s /var/log/nginx ~/nginx_logs
+        ln -s /var/log/php ~/php_logs
+        ln -s /var/www/html/wordpress ~/wordpress_content_directory
+}
 
 wp_cli () {
         echo "installing the latest version of WP-CLI"
@@ -242,6 +249,8 @@ sleep 1
 wp_cli
 echo "checking diagnostics"
 diags
+echo "adding log and wordpress work directory symlinks"
+symlinks
 else
 echo "This script cannot run on this system at the present moment"
 exit 0
