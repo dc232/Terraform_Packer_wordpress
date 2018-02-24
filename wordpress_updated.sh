@@ -8,10 +8,33 @@ OS_CODENAME=$(grep VERSION_CODENAME /etc/os-release | sudo sed '/VERSION_CODENAM
 UBUNTU_SOURCE_LIST="/etc/apt/sources.list"
 
 
+wp_cli () {
+        echo "installing the latest version of WP-CLI"
+        sleep 1
+        curl -o https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        sleep 1
+        echo "verifying that the wp-cli.phar file is working"
+        sleep 1
+        php wp-cli.phar --info
+        echo "changing file permissions of wp-cli.phar"
+        sleep 1
+        sudo chmod +x wp-cli.phar
+        echo "renaming file to wp and moving to binary directory /ur/local/bin"
+        sleep 1
+        sudo mv wp-cli.phar /ur/local/bin/wp
+        echo "checking that binary exists for file wp"
+        sleep 1
+        which wp
+}
+
 diags () {
 echo "showing mariadb server satus"
 systemctl status mariadb-server.service
 sleep 1 
+echo "checking nginx config file status for errors"
+sleep 1
+nginx -t
+sleep 2
 echo "showing nginx status"
 systemctl status ngix.service
 sleep 1 
@@ -21,7 +44,7 @@ sudo systemctl status php7.1-fpm.service
 
 
 
-upgrade () {
+update_upgrade () {
 apt-get update && apt-get upgrade -y 
 }
 
@@ -183,16 +206,16 @@ overall_install () {
 if [ "OS_CHECK" ]; then 
 echo "The OS that you have is Ubuntu"
 sleep 1
-echo "Proceeding to upgrade the system"
-upgrade
+echo "Proceeding to update and upgrade the system"
+update_upgrade
 sleep 1
 echo "installing nginx"
 nginx_install
 sleep 1
 echo "configuring nginx"
 nginx_conf
-echo "installing mariadb"
-sleep 1
+#echo "installing mariadb"
+#sleep 1
 #mariad_install
 #echo "configuring mariadb"
 #sleep 1
@@ -202,7 +225,14 @@ php_install
 sleep 1
 echo "configuring php"
 php_conf
-echo "displaying "
+echo "setting up wordpress"
+sleep 1
+wordpress_setup
+echo "installing wp-cli"
+sleep 1
+wp_cli
+echo "checking diagnostics"
+diags
 else
 echo "This script cannot run on this system at the present moment"
 exit 0
