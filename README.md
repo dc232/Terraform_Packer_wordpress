@@ -39,4 +39,7 @@ Salt information will now populate automatically in the wordpress_wpconfig.sh fi
 * Carridge return linting (incase ^M is seen on standard out when cating the wp-config file)
 * symlinks to `/var/log/nginx` and`/var/log/php` for systems administrator debuging
 * symlinks to `/etc/php` to adjust the `php.ini` file parameters (this may be added to the script in the future)
+* Elastic IP address association with the newly created AMI
+* Security Group association to open up port 22 and 80 for remote management (maybe via ansible/chef) and viewing, SSl port 443 will be added later on
+
 
