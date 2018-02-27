@@ -13,6 +13,9 @@ resource "aws_instance" "web" {
   ami           = "AMI_ID"
 #  availablity_zone = "us-west-2a"
   instance_type = "t2.micro"
+  security_groups = [
+    "${aws_security_group.rules.name}"
+   ]
 }
 
 resource "aws_eip" "eipvpc" {

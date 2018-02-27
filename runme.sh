@@ -72,10 +72,10 @@ terraform apply -auto-approve #auto-approve allows for the suppression of confir
 #as plan but promts us to approve the changes before applying thats the only diffrece between them
 echo "showing terraform computed changes"
 sleep 1 
-terraform state show 
-TERRAFORM_DATABBASE_ENDPOINT=$(terraform state show | grep endpoint | sed 's/endpoint//g' | tr -d = | tr -d ' ')
-TERRAFORM_DATABBASE_USERNAME=$(terraform state show | grep username | sed 's/username//g' | tr -d = | tr -d ' ')
-TERRAFORM_DATABASE_PASSWORD=$(terraform state show | grep password | sed 's/password//g' | tr -d = | tr -d ' ')
+terraform show 
+TERRAFORM_DATABBASE_ENDPOINT=$(terraform show | grep endpoint | sed 's/endpoint//g' | tr -d = | tr -d ' ')
+TERRAFORM_DATABBASE_USERNAME=$(terraform show | grep username | sed 's/username//g' | tr -d = | tr -d ' ')
+TERRAFORM_DATABASE_PASSWORD=$(terraform show | grep password | sed 's/password//g' | tr -d = | tr -d ' ')
 
 cat << EOF
 ######################################################

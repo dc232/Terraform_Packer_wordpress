@@ -38,12 +38,34 @@
             ]
         },
         {
-            "type": "shell",
-            "script": "./wordpress_updated.sh"
+            "type": "file",
+            "source": "./wordpress_updated.sh",
+            "destination":"/home/ubuntu/"
         },
         {
             "type": "shell",
-            "script": "./wordpress_wpconfig.sh"
+            "inline":[
+                "ls -al /home/ubuntu",
+                "sudo chmod +x /home/ubuntu/wordpress_updated.sh",
+                "echo installing wordpress onto AMI",
+                "sleep 1",
+                "./wordpress_updated.sh"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "./wordpress_wpconfig.sh",
+            "destination":"/home/ubuntu/"
+        },
+        {
+            "type": "shell",
+            "inline":[
+                "ls -al /home/ubuntu",
+                "sudo chmod +x /home/ubuntu/wordpress_wpconfig.sh",
+                "echo configuring wordpress onto AMI",
+                "sleep 1",
+                "./wordpress_wpconfig.sh"
+            ]
         }
     ]
 }
