@@ -1,7 +1,7 @@
 /* provider "aws" {
-    access_key  = "ACCESS_KEY_HERE"
-    secret_key = "SECRET_KEY_HERE"
-    region     = "us-west-2" 
+    access_key  = "${var.aws_access_key}"
+    secret_key = "${var.aws_secret_key}"
+    region     = "${var.aws_region}" 
 } */
 
 #defines the new resource being made in this case this is the AWS security group

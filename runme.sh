@@ -110,6 +110,40 @@ terraform init
 terraform apply Packer_Newly_Created_AMI.tf -auto-approve
 }
 
+overall_script () {
+terraform_check
+packer_run_wordpress_AMI_creation
+Terraform_Deploy_Packer_AMI
+}
+
+Secret_Management () {
+AWS_CREDS=~/.aws/credentials
+cat << EOF
+######################################################
+Checking to see if $AWS_CREDS exists
+######################################################
+EOF
+
+sleep 1 
+#To make the variable word with tildi it must not be quoted see https://serverfault.com/questions/417252/check-if-directory-exists-using-home-character-in-bash-fails for detials
+
+
+    if [ -f "$AWS_CREDS" ]; then
+    echo "AWS credentials found using them instead of Secrets.tf"
+    sleep 1
+    echo "Proceeding to run the rest of the script"
+    overall_script
+    else
+    echo "No $AWS_CREDS file found reveting to use the Secrets.tf file"
+    sleep 1 
+    echo "uncommenting secrets to run the rest of the script"
+    sleep 1
+    find . -type f -name '*.tf' -exec sed -i 's/\///g' {} \; #finds in the local directory . any tf file then executes sed on all thoose files
+    find . -type f -name '*.tf' -exec sed -i 's/\*//g' {} \;
+    overall_script
+    fi
+}
+
 cat <<EOF
 ################################
 This script is desighned to execute 
@@ -120,7 +154,7 @@ install it
 EOF
 
 sleep 5
-terraform_check
-packer_run_wordpress_AMI_creation
-Terraform_Deploy_Packer_AMI
+
+
+
 

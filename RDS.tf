@@ -1,7 +1,7 @@
 /* provider "aws" {
-  access_key = "XXXXXXXXXXXXXXXXXXXXXXX"
-  secret_key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
-  region     = "us-west-2"
+    access_key  = "${var.aws_access_key}"
+    secret_key = "${var.aws_secret_key}"
+    region     = "${var.aws_region}" 
 } */
 
 resource "aws_db_instance" "RDS" {
@@ -16,17 +16,3 @@ resource "aws_db_instance" "RDS" {
   db_subnet_group_name = "default"
   parameter_group_name = "default.mariadb10.0"
 }
-
-#example from terraform
-/* resource "aws_db_instance" "default" {
-  allocated_storage    = 10
-  storage_type         = "gp2"
-  engine               = "mysql"
-  engine_version       = "5.6.17"
-  instance_class       = "db.t1.micro"
-  name                 = "mydb"
-  username             = "foo"
-  password             = "bar"
-  db_subnet_group_name = "my_database_subnet_group"
-  parameter_group_name = "default.mysql5.6"
-} */
