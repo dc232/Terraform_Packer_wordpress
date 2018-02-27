@@ -80,7 +80,9 @@ sleep 1
 sed -i 's/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.1/cli/php.ini
 echo "restarting service"
 sudo systemctl restart php7.1-fpm.service
-
+echo "checking php cli"
+sleep 1 
+php -v
 }
 
 mariad_install () {
