@@ -62,7 +62,7 @@
             "inline":[
                 "ls -al /home/ubuntu",
                 "sudo chmod +x /home/ubuntu/wordpress_wpconfig.sh",
-                "echo configuring wordpress onto AMI",
+                "echo configuring wordpress into AMI",
                 "sleep 1",
                 "./wordpress_wpconfig.sh"
             ]
