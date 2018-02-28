@@ -110,9 +110,17 @@ terraform init
 terraform apply Packer_Newly_Created_AMI.tf -auto-approve
 }
 
+key_management () {
+    echo "creating puplic and private key pair"
+    sleep 1
+    mkdir key
+    ssh-keygen -t rsa -b 4906 -f key/wordpress_terraform_key -C wordpress_terrafrom_key_pair -N '' #where b means bits t means type and f means filename C means comment, N mean to set the passphrase ib this case there is no passphase
+}
+
 overall_script () {
 terraform_check
 packer_run_wordpress_AMI_creation
+key_management
 Terraform_Deploy_Packer_AMI
 }
 
