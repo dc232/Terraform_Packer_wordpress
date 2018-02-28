@@ -118,6 +118,8 @@ Terraform_Deploy_Packer_AMI
 
 Secret_Management () {
 AWS_CREDS=~/.aws/credentials
+AWS_VAR_SECRET_KET="$(grep SecretKey secrets.tf)"
+AWS_VAR_ACCESS_KEY="$(grep AcessKey secrets.tf)"
 cat << EOF
 ######################################################
 Checking to see if $AWS_CREDS exists
@@ -133,6 +135,10 @@ sleep 1
     sleep 1
     echo "Proceeding to run the rest of the script"
     overall_script
+    elif [[ "$AWS_VAR_SECRET_KET" &&  "$AWS_VAR_ACCESS_KEY" ]]; then 
+    echo "please change the AWS secret key and AWS acess key from there default values before continuing"
+    sleep 1
+    exit 0
     else
     echo "No $AWS_CREDS file found reveting to use the Secrets.tf file"
     sleep 1 
