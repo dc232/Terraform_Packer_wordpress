@@ -4,9 +4,9 @@ packer_run_wordpress_AMI_creation () {
 ####################################
 # Private VARS
 ####################################
-PACKER_BIN=$(which packer)
+PACKER_BIN="echo $(which packer)"
 PACKER_VERSION="1.2.0"
-TERRAFORM_BIN=$(which terraform)
+TERRAFORM_BIN="echo $(which terraform)"
 TERRAFORM_VERSION="0.11.3"
 
 if [ "$PACKER_BIN" ]; then
