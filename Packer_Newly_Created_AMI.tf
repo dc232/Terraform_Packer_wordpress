@@ -25,5 +25,3 @@ resource "aws_instance" "web" {
 resource "aws_eip" "eipvpc" {
   vpc = "true"
 }
-
-

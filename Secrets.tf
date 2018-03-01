@@ -9,3 +9,5 @@ variable "aws_secret_key" {
 variable "aws_region" {
     region = "Region"
 }
+
+variable "aws_ssh_admin_key_file" { }
