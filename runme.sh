@@ -133,6 +133,8 @@ Secret_Management () {
 AWS_CREDS=~/.aws/credentials
 AWS_VAR_SECRET_KET="$(grep SecretKey Secrets.tf)"
 AWS_VAR_ACCESS_KEY="$(grep AcessKey Secrets.tf)"
+AWS_CONFIG=~/.aws/config
+AWS_VAR_REGION="$(grep region $AWS_CONFIG | sed 's/region//g' | tr -d = | tr -d ' ')"
 cat << EOF
 ######################################################
 Checking to see if $AWS_CREDS exists
@@ -143,10 +145,15 @@ sleep 1
 #To make the variable word with tildi it must not be quoted see https://serverfault.com/questions/417252/check-if-directory-exists-using-home-character-in-bash-fails for detials
 
 
-    if [ -f "$AWS_CREDS" ]; then
-    echo "AWS credentials found using them instead of Secrets.tf"
+    if [[ -f "$AWS_CREDS" && -f "$AWS_CONFIG" ]]; then
+    echo "AWS credentials and config found using them instead of Secrets.tf"
     sleep 1
+    echo "Preparing Secrets.tf file with region information from $AWS_CONFIG"
+    sleep 1
+    sed -i 's/Region/'$AWS_VAR_REGION'/' Secrets.tf
+    sed -i 's/#//g' $AWS_VAR_REGION
     echo "Proceeding to run the rest of the script"
+    sleep 1
     overall_script
     elif [[ "$AWS_VAR_SECRET_KET" &&  "$AWS_VAR_ACCESS_KEY" ]]; then 
     echo "please change the AWS secret key and AWS acess key from there default values before continuing"
