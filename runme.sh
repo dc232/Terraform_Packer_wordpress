@@ -96,9 +96,9 @@ sed -i 's/dbpassword/'$TERRAFORM_DATABASE_PASSWORD'/' wordpress_wpconfig.sh
 #with the Amazon Resource we just created
 # the tr command means translate or delete characters -d operand meand delete white space
 else
-echo "installing packer to /usr/bin/terraform "
-wget https://releases.hashicorp.com/packer/$TERRAFORM_VERSION/packer_"$TERRAFORM_VERSION"_linux_amd64.zip
-sudo unzip packer_"$TERRAFORM_VERSION"_linux_amd64.zip -d /usr/bin
+echo "installing terraform to /usr/bin/terraform"
+wget https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+sudo unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip -d /usr/bin
 fi
 }
 
@@ -126,8 +126,8 @@ Terraform_Deploy_Packer_AMI
 
 Secret_Management () {
 AWS_CREDS=~/.aws/credentials
-AWS_VAR_SECRET_KET="$(grep SecretKey secrets.tf)"
-AWS_VAR_ACCESS_KEY="$(grep AcessKey secrets.tf)"
+AWS_VAR_SECRET_KET="$(grep SecretKey Secrets.tf)"
+AWS_VAR_ACCESS_KEY="$(grep AcessKey Secrets.tf)"
 cat << EOF
 ######################################################
 Checking to see if $AWS_CREDS exists
