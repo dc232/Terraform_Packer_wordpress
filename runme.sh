@@ -50,7 +50,7 @@ AWS secret and Acess keys are explicted difined in the
 RDS.tf scriptm If you need to set them explicitly 
 please see RDS.tf
 ######################################################
-EOF 
+EOF
 sleep 7
 echo "Initialising terraform backend which means that it will look for the AWS service provider plugin"
 sleep 2
