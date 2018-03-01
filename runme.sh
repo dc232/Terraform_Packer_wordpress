@@ -146,14 +146,22 @@ sleep 1
     elif [[ "$AWS_VAR_SECRET_KET" &&  "$AWS_VAR_ACCESS_KEY" ]]; then 
     echo "please change the AWS secret key and AWS acess key from there default values before continuing"
     sleep 1
+    echo  "uncommenting Secrets.tf and all other .tf files to allow for AWS acess key and AWS secret key to be entered in this file"
+    sleep 5
+    find . -type f -name '*.tf' -exec sed -i 's/\///g' {} \; #finds in the local directory . any tf file then executes sed on all thoose files
+    find . -type f -name '*.tf' -exec sed -i 's/\*//g' {} \;
     exit 0
     else
     echo "No $AWS_CREDS file found reveting to use the Secrets.tf file"
     sleep 1 
-    echo "uncommenting secrets to run the rest of the script"
+    echo "you have changed the values in the Serets.tf file"
+    sleep 1 
+    echo "continuing to uncommenting secrets to allow for the rest of the script to run"
     sleep 1
     find . -type f -name '*.tf' -exec sed -i 's/\///g' {} \; #finds in the local directory . any tf file then executes sed on all thoose files
     find . -type f -name '*.tf' -exec sed -i 's/\*//g' {} \;
+    echo "Runing the rest of the script"
+    sleep 1
     overall_script
     fi
 }
