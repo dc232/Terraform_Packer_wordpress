@@ -13,3 +13,7 @@ variable "aws_secret_key" {
 #    default = "Region"
 #    description = "AWS Region"
 #}
+
+# provider "aws" {
+#    region     = "${var.aws_region}" 
+#}
