@@ -131,8 +131,8 @@ Terraform_Deploy_Packer_AMI
 
 Secret_Management () {
 AWS_CREDS=~/.aws/credentials
-AWS_VAR_SECRET_KET="$(grep SecretKey Secrets.tf)"
-AWS_VAR_ACCESS_KEY="$(grep AcessKey Secrets.tf)"
+AWS_VAR_SECRET_KET="$(grep SecretKey terraform.tfvars)"
+AWS_VAR_ACCESS_KEY="$(grep AcessKey terraform.tfvars)"
 AWS_CONFIG=~/.aws/config
 AWS_VAR_REGION="$(grep region $AWS_CONFIG | sed 's/region//g' | tr -d = | tr -d ' ')"
 cat << EOF
