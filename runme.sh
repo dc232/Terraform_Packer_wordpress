@@ -151,7 +151,7 @@ sleep 1
     echo "Preparing Secrets.tf file with region information from $AWS_CONFIG"
     sleep 1
     sed -i 's/Region/'$AWS_VAR_REGION'/' Secrets.tf
-    sed -i 's/#//g' $AWS_VAR_REGION
+    sed -i 's/#//g' Secrets.tf
     echo "Proceeding to run the rest of the script"
     sleep 1
     overall_script
