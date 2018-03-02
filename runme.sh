@@ -12,17 +12,11 @@ packer_run_wordpress_AMI_creation () {
 if [ "$PACKER_BIN" ]; then
 echo "validating packer"
 sleep 1
-packer validate fistrun.json
+packer validate firstrun.json
 sleep 1
 echo "Building packer iamge from fistrun.json, please ensure AWS secret and Access keys have been specified/setup as well as AWS Region"
- packer build -machine-readable example.json | tee build.log
+ packer build -machine-readable firstrun.json | tee build.log
  #creates a log called build.log but also displays the machine reable output to standard output
- TERRAFORM_AMI_NAME=$(egrep -m1 -oe 'ami-.{8}' build.log)
- sed -i 's/AMI_ID/'$TERRAFORM_AMI_NAME'/' Packer_Newly_Created_AMI.tf
- #where m is the max count 
- #o is the the only mactching
- #l is the filre with matches
- #line above gives ami id automatiaclly for deployment
 else
 echo "installing packer to /usr/bin/packer "
 wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_"$PACKER_VERSION"_linux_amd64.zip
@@ -118,8 +112,14 @@ fi
 Terraform_Deploy_Packer_AMI () {
 echo "Deploying Newly created Wordpress AMI"
 sleep 1
+ TERRAFORM_AMI_NAME=$(egrep -m1 -oe 'ami-.{8}' build.log)
+ sed -i 's/AMI_ID/'$TERRAFORM_AMI_NAME'/' Packer_Terraform/Packer_Newly_Created_AMI.tf
+ #where m is the max count 
+ #o is the the only mactching
+ #l is the filre with matches
+ #line above gives ami id automatiaclly for deployment
 terraform init
-terraform apply Packer_Newly_Created_AMI.tf -auto-approve
+terraform apply Packer_Terraform/Packer_Newly_Created_AMI.tf -auto-approve
 }
 
 
