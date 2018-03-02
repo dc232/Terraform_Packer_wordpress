@@ -44,7 +44,7 @@ wp_cli () {
 }
 
 diags () {
-echo "showing mariadb server satus"
+echo "showing mariadb server satus (if using local DB server config)"
 systemctl status mariadb-server.service
 sleep 1 
 echo "checking nginx config file status for errors"
@@ -52,7 +52,7 @@ sleep 1
 nginx -t
 sleep 2
 echo "showing nginx status"
-systemctl status ngix.service
+systemctl status nginx.service
 sleep 1 
 echo "showing php status"
 sudo systemctl status php7.1-fpm.service
@@ -61,7 +61,7 @@ sudo systemctl status php7.1-fpm.service
 
 
 update_upgrade () {
-apt-get update && apt-get upgrade -y 
+sudo apt-get update && sudo apt-get upgrade -y 
 }
 
 php_install () {
@@ -114,9 +114,8 @@ sudo apt-get install mariadb-server mariadb-client -y
 }
 
 mariadb_conf () {
-aptitude -y install expect
-
-// Not required in actual script
+sudo apt install expect -y
+#// Not required in actual script
 MYSQL_ROOT_PASSWORD=abcd1234
 
 SECURE_MYSQL=$(expect -c "
@@ -139,7 +138,7 @@ expect eof
 
 echo "$SECURE_MYSQL"
 
-aptitude -y purge expect
+sudo apt purge expect -y
 }
 
 wordpress_setup () {
@@ -151,24 +150,24 @@ EOF
 sleep 1
 
 echo "installing zip"
-apt-get install zip unzip -y
+sudo apt install zip unzip -y
 wget --progress=bar:force https://wordpress.org/latest.zip
-unzip latest.zip
+sudo unzip latest.zip
 #mv wordpress/* /var/www/html/
 mv wordpress/ /var/www/html/
 echo changing file owners permisions 
 sleep 2
-cd /var/www/html/
-find . -type d -exec chown www-data:www-data {} \;
-find . -type f -exec chown www-data:www-data {} \;
+cd /var/www/html/ || exit 0
+sudo find . -type d -exec chown www-data:www-data {} \;
+sudo find . -type f -exec chown www-data:www-data {} \;
 cd /var/www/html/wordpress/
-find . -type d -exec chown www-data:www-data {} \;
-find . -type f -exec chown www-data:www-data {} \;
+sudo find . -type d -exec chown www-data:www-data {} \;
+sudo find . -type f -exec chown www-data:www-data {} \;
 }
 
 
 nginx_conf () {
-mv /etc/nginx/sites-available/default /etc/nginx/
+sudo mv /etc/nginx/sites-available/default /etc/nginx/
 cat <<EOF >> /etc/nginx/sites-available/wordpress
 server {
         listen 80;
@@ -214,8 +213,8 @@ sleep 1
 wget --progress=bar:force http://nginx.org/keys/nginx_signing.key
 echo "adding nginx repos to the $UBUNTU_SOURCE_LIST"
 sleep 1
-echo deb http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
-echo deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
+sudo echo deb http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
+sudo echo deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
 echo "installing nginx"
 sudo apt-get update && sudo apt-get install nginx -y
 }
