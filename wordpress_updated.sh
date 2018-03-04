@@ -222,8 +222,8 @@ echo "creating nginx-ppa.list file"
 sleep 1
 
 sudo cat<< EOF >> nginx-ppa.list
-deb http://nginx.org/packages/debian/ $OS_CODENAME nginx
-deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx
+deb http://nginx.org/packages/ubuntu/ $OS_CODENAME nginx
+deb-src http://nginx.org/packages/ubuntu/ $OS_CODENAME nginx
 EOF
 
 echo "moving nginx-ppa.list to  $SOURCES_DIR"
