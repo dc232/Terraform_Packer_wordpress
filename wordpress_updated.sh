@@ -6,7 +6,7 @@
 OS_CHECK="$(grep debian /etc/os-release)"
 OS_CODENAME=$(grep VERSION_CODENAME /etc/os-release | sudo sed '/VERSION_CODENAME/,$!d' /etc/os-release | sed 's/UBUNTU_CODENAME=xenial//g' | sed 's/VERSION_CODENAME=//g')
 UBUNTU_SOURCE_LIST="/etc/apt/sources.list"
-
+SOURCES_DIR="/etc/apt/sources.list.d/"
 symlinks () {
         echo "creating symlinks for nginx and php"
         sleep 1
@@ -217,10 +217,28 @@ sleep 6
 echo "Downloading key"
 sleep 1
 wget --progress=bar:force http://nginx.org/keys/nginx_signing.key
-echo "adding nginx repos to the $UBUNTU_SOURCE_LIST"
+#echo "adding nginx repos to the $UBUNTU_SOURCE_LIST"
+echo "creating nginx-ppa.list file in $SOURCES_DIR"
 sleep 1
-sudo echo deb http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
-sudo echo deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
+
+cat<< EOF >>$SOURCES_DIR/nginx-ppa.list
+deb http://nginx.org/packages/debian/ $OS_CODENAME nginx
+deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx
+EOF
+
+nginx_PPA="grep nginx-ppa.list $SOURCES_DIR"
+echo "debug code for testing purposes"
+if [ "$nginx_PPA" ]; then 
+echo "the file was created successfully"
+cat $SOURCES_DIR/nginx-ppa.list
+else 
+echo "nginx-ppa.list failed to be created exiting"
+exit 0
+fi
+
+#old code that has a bug in it
+#sudo echo deb http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
+#sudo echo deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
 echo "installing nginx"
 sleep 2
 sudo apt-get update && sudo apt-get install nginx -y
