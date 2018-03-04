@@ -218,13 +218,17 @@ echo "Downloading key"
 sleep 1
 wget --progress=bar:force http://nginx.org/keys/nginx_signing.key
 #echo "adding nginx repos to the $UBUNTU_SOURCE_LIST"
-echo "creating nginx-ppa.list file in $SOURCES_DIR"
+echo "creating nginx-ppa.list file"
 sleep 1
 
-sudo cat<< EOF >>$SOURCES_DIR/nginx-ppa.list
+sudo cat<< EOF >> nginx-ppa.list
 deb http://nginx.org/packages/debian/ $OS_CODENAME nginx
 deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx
 EOF
+
+echo "moving nginx-ppa.list to  $SOURCES_DIR"
+sleep 1
+sudo mv nginx-ppa.list $SOURCES_DIR
 
 nginx_PPA="grep nginx-ppa.list $SOURCES_DIR"
 echo "debug code for testing purposes"
