@@ -28,7 +28,7 @@ wp_cli () {
         sudo chmod +x wp-cli.phar
         echo "renaming file to wp and moving to binary directory /ur/local/bin"
         sleep 1
-        sudo mv wp-cli.phar /ur/local/bin/wp
+        sudo mv wp-cli.phar /usr/local/bin/wp
         echo "checking that binary exists for file wp"
         sleep 1
         which wp
@@ -45,7 +45,7 @@ wp_cli () {
 
 diags () {
 echo "showing mariadb server satus (if using local DB server config)"
-systemctl status mariadb-server.service
+systemctl status mariadb.service
 sleep 1 
 echo "checking nginx config file status for errors"
 sleep 1
