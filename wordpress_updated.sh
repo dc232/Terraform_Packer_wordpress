@@ -244,6 +244,15 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $key
 echo "installing nginx"
 sleep 2
 sudo apt-get update && sudo apt-get install nginx -y
+sudo systemctl start nginx
+sudo systemctl status nginx
+
+echo "checking directories"
+sleep 1
+ls -l /etc/
+sleep 5
+ls -l /var/
+sleep 5
 }
 
 overall_install () {
