@@ -18,7 +18,7 @@ symlinks () {
 wp_cli () {
         echo "installing the latest version of WP-CLI"
         sleep 1
-        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
         sleep 1
         echo "verifying that the wp-cli.phar file is working"
         sleep 1
@@ -26,7 +26,7 @@ wp_cli () {
         echo "changing file permissions of wp-cli.phar"
         sleep 1
         sudo chmod +x wp-cli.phar
-        echo "renaming file to wp and moving to binary directory /ur/local/bin"
+        echo "renaming file to wp and moving to binary directory /usr/local/bin"
         sleep 1
         sudo mv wp-cli.phar /usr/local/bin/wp
         echo "checking that binary exists for file wp"
@@ -152,7 +152,9 @@ sleep 1
 echo "installing zip"
 sudo apt install zip unzip -y
 wget --progress=bar:force https://wordpress.org/latest.zip
-sudo unzip latest.zip
+sudo unzip latest.zip 1>/dev/null
+echo "printing working directory (debug)"
+pwd
 #mv wordpress/* /var/www/html/
 sudo mv wordpress/ /var/www/html/
 echo changing file owners permisions 
@@ -167,7 +169,11 @@ sudo find . -type f -exec chown www-data:www-data {} \;
 
 
 nginx_conf () {
+echo "moving default nginx configuration"
+sleep 1
 sudo mv /etc/nginx/sites-available/default /etc/nginx/
+echo "creating new configuration"
+sleep 1
 cat <<EOF >> /etc/nginx/sites-available/wordpress
 server {
         listen 80;
@@ -216,6 +222,7 @@ sleep 1
 sudo echo deb http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
 sudo echo deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
 echo "installing nginx"
+sleep 2
 sudo apt-get update && sudo apt-get install nginx -y
 }
 
