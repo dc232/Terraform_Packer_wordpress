@@ -6,7 +6,7 @@
 OS_CHECK="$(grep debian /etc/os-release)"
 OS_CODENAME=$(grep VERSION_CODENAME /etc/os-release | sudo sed '/VERSION_CODENAME/,$!d' /etc/os-release | sed 's/UBUNTU_CODENAME=xenial//g' | sed 's/VERSION_CODENAME=//g')
 UBUNTU_SOURCE_LIST="/etc/apt/sources.list"
-SOURCES_DIR="/etc/apt/sources.list.d/"
+SOURCES_DIR="/etc/apt/sources.list.d"
 symlinks () {
         echo "creating symlinks for nginx and php"
         sleep 1
@@ -221,7 +221,7 @@ wget --progress=bar:force http://nginx.org/keys/nginx_signing.key
 echo "creating nginx-ppa.list file in $SOURCES_DIR"
 sleep 1
 
-sudo cat<< EOF >>$SOURCES_DIRnginx-ppa.list
+sudo cat<< EOF >>$SOURCES_DIR/nginx-ppa.list
 deb http://nginx.org/packages/debian/ $OS_CODENAME nginx
 deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx
 EOF
