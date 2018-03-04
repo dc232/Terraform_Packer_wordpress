@@ -5,8 +5,9 @@
 ####################################
 OS_CHECK="$(grep debian /etc/os-release)"
 OS_CODENAME=$(grep VERSION_CODENAME /etc/os-release | sudo sed '/VERSION_CODENAME/,$!d' /etc/os-release | sed 's/UBUNTU_CODENAME=xenial//g' | sed 's/VERSION_CODENAME=//g')
-UBUNTU_SOURCE_LIST="/etc/apt/sources.list"
 SOURCES_DIR="/etc/apt/sources.list.d"
+key="ABF5BD827BD9BF62"
+
 symlinks () {
         echo "creating symlinks for nginx and php"
         sleep 1
@@ -214,10 +215,7 @@ EOF
 
 sleep 6
 
-echo "Downloading key"
-sleep 1
-wget --progress=bar:force http://nginx.org/keys/nginx_signing.key
-#echo "adding nginx repos to the $UBUNTU_SOURCE_LIST"
+
 echo "creating nginx-ppa.list file"
 sleep 1
 
@@ -240,9 +238,9 @@ echo "nginx-ppa.list failed to be created exiting"
 exit 0
 fi
 
-#old code that has a bug in it
-#sudo echo deb http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
-#sudo echo deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx >> $UBUNTU_SOURCE_LIST
+echo "Setting up nginx Official repository gpg signing"
+sleep 1
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $key
 echo "installing nginx"
 sleep 2
 sudo apt-get update && sudo apt-get install nginx -y
