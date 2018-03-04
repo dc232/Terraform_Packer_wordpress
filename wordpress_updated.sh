@@ -221,7 +221,7 @@ wget --progress=bar:force http://nginx.org/keys/nginx_signing.key
 echo "creating nginx-ppa.list file in $SOURCES_DIR"
 sleep 1
 
-sudo cat<< EOF >>$SOURCES_DIR/nginx-ppa.list
+sudo cat<< EOF >>$SOURCES_DIRnginx-ppa.list
 deb http://nginx.org/packages/debian/ $OS_CODENAME nginx
 deb-src http://nginx.org/packages/debian/ $OS_CODENAME nginx
 EOF
