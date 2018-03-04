@@ -249,7 +249,7 @@ sudo systemctl status nginx
 
 echo "checking directories"
 sleep 1
-ls -l /etc/nginx
+cat /etc/nginx/nginx.conf 
 sleep 5
 ls -l /var/
 sleep 5
