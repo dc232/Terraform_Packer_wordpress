@@ -247,10 +247,10 @@ sudo systemctl status nginx
 echo "checking directories"
 sleep 1
 cat /etc/nginx/nginx.conf 
-sleep 5
-ls -l /etc/nginx
-sleep 1
+sleep 2
 ls -l /usr/share/nginx/html
+sleep 2
+ ls -l /etc/nginx/conf.d/
 sleep 5
 }
 
