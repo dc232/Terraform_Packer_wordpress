@@ -18,7 +18,7 @@ symlinks () {
 wp_cli () {
         echo "installing the latest version of WP-CLI"
         sleep 1
-        curl -o https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
         sleep 1
         echo "verifying that the wp-cli.phar file is working"
         sleep 1
@@ -77,7 +77,7 @@ sudo apt-get install php7.1 php7.1-cli php7.1-common php7.1-json php7.1-opcache 
 php_conf () {
 echo "chaging cgi.fix_pathinfo"
 sleep 1
-sed -i 's/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.1/cli/php.ini
+sudo sed -i 's/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.1/cli/php.ini
 echo "restarting service"
 sudo systemctl restart php7.1-fpm.service
 echo "checking php cli"
@@ -154,7 +154,7 @@ sudo apt install zip unzip -y
 wget --progress=bar:force https://wordpress.org/latest.zip
 sudo unzip latest.zip
 #mv wordpress/* /var/www/html/
-mv wordpress/ /var/www/html/
+sudo mv wordpress/ /var/www/html/
 echo changing file owners permisions 
 sleep 2
 cd /var/www/html/ || exit 0
