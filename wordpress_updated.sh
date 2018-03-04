@@ -170,9 +170,6 @@ sudo find . -type f -exec chown www-data:www-data {} \;
 
 
 nginx_conf () {
-echo "moving default nginx configuration"
-sleep 1
-sudo mv /etc/nginx/sites-available/default /etc/nginx/
 echo "creating new configuration"
 sleep 1
 cat <<EOF >> /etc/nginx/sites-available/wordpress
@@ -251,7 +248,9 @@ echo "checking directories"
 sleep 1
 cat /etc/nginx/nginx.conf 
 sleep 5
-ls -l /var/
+ls -l /etc/nginx
+sleep 1
+ls -l /usr/share/nginx/html
 sleep 5
 }
 
