@@ -156,8 +156,8 @@ wget --progress=bar:force https://wordpress.org/latest.zip
 sudo unzip latest.zip 1>/dev/null
 echo "printing working directory (debug)"
 pwd
-mkdir /var/www/
-mkdir /var/www/html
+sudo mkdir /var/www/
+sudo mkdir /var/www/html
 #mv wordpress/* /var/www/html/
 sudo mv wordpress/ /var/www/html/
 echo changing file owners permisions 
@@ -177,7 +177,7 @@ sleep 1
 echo "moving default nginx configuration in dir /etc/nginx/conf.d/"
 sleep 1
 sudo mv /etc/nginx/conf.d/default.conf /etc/nginx/
-cat <<EOF >> /etc/nginx/conf.d/wordpress.conf
+sudo cat <<EOF >> /etc/nginx/conf.d/wordpress.conf
 server {
         listen 80;
         listen [::]:80 default_server;
