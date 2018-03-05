@@ -11,7 +11,7 @@ resource "aws_security_group" "rules" {
 }
 
 variable "http_ports" {
-  default = ["80", "443", "3306"]
+  default = ["80", "443", "3306", "22"]
 }
 
 #defines inbound rules set by the http_ports variable
