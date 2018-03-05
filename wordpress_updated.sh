@@ -156,11 +156,13 @@ wget --progress=bar:force https://wordpress.org/latest.zip
 sudo unzip latest.zip 1>/dev/null
 echo "printing working directory (debug)"
 pwd
+mkdir /var/www/
+mkdir /var/www/html
 #mv wordpress/* /var/www/html/
 sudo mv wordpress/ /var/www/html/
 echo changing file owners permisions 
 sleep 2
-cd /var/www/html/ || exit 0
+cd /var/www/html/
 sudo find . -type d -exec chown www-data:www-data {} \;
 sudo find . -type f -exec chown www-data:www-data {} \;
 cd /var/www/html/wordpress/
@@ -172,7 +174,10 @@ sudo find . -type f -exec chown www-data:www-data {} \;
 nginx_conf () {
 echo "creating new configuration"
 sleep 1
-cat <<EOF >> /etc/nginx/sites-available/wordpress
+echo "moving default nginx configuration in dir /etc/nginx/conf.d/"
+sleep 1
+sudo mv /etc/nginx/conf.d/default.conf /etc/nginx/
+cat <<EOF >> /etc/nginx/conf.d/wordpress.conf
 server {
         listen 80;
         listen [::]:80 default_server;
@@ -180,6 +185,15 @@ server {
         root /var/www/wordpress;
         index index.php;
         client_max_body_size 900m;
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+        root   /usr/share/nginx/html;
+        }
 
         location / {
                 try_files $uri $uri/ /index.php?q=$uri&$args;
