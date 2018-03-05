@@ -210,6 +210,16 @@ server {
         }
 }
 EOF
+echo "checking to see if file was created (debug code)"
+wordpress_configuration_file="/etc/nginx/conf.d/wordpress.conf"
+if ["$wordpress_configuration_file"]; then
+echo "wordpress config created sucessfully"
+find /etc/nginx/conf.d/ -name wordpress.conf
+sleep 1 
+else
+echo "file has not been created"
+ls -l /etc/nginx/conf.d/
+fi
 nginx -t
 }
 
