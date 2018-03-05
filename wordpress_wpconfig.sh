@@ -15,7 +15,7 @@ ls -l /var/www/html/wordpress/
 sleep 2
 echo "creating file wp-config.php"
 sleep 1
-sudo cat <<EOF >> /var/www/html/wordpress/wp-config.php
+sudo cat <<EOF >>wp-config.php
 <?php
 /**
  * The base configuration for WordPress
@@ -98,6 +98,12 @@ if ( !defined('ABSPATH') )
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
 EOF
+echo "moving file wp-config.php into /var/www/html/wordpress/"
+sleep 1
+sudo mv wp-config.php /var/www/html/wordpress/
+echo "changing permissions"
+sleep 1
+sudo find . -type f -exec chown www-data:www-data {} \;
 else 
 echo "file exists exiting script"
 exit 0
