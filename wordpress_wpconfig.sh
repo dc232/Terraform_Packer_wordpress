@@ -5,9 +5,17 @@ echo "debug code"
 ls -l /var/www/html/
 sleep 2
 ls -l /var/www/html/wordpress
+wordpress_config_php="/var/www/html/wordpress/wp-config.php"
+if [ ! -f "$wordpress_config_php" ]; then
+echo "checking current directory"
+pwd
 sleep 2
-sudo mv /var/www/html/wordpress/wp-config.php /var/www/html/wordpress/wp-config.php.bak
-sudo cat << EOF >> /var/www/html/wordpress/wp-config.php
+echo "checking contents of /var/www/html/wordpress"
+ls -l /var/www/html/wordpress/
+sleep 2
+echo "creating file wp-config.php"
+sleep 1
+sudo cat <<EOF >> /var/www/html/wordpress/wp-config.php
 <?php
 /**
  * The base configuration for WordPress
@@ -90,3 +98,7 @@ if ( !defined('ABSPATH') )
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
 EOF
+else 
+echo "file exists exiting script"
+exit 0
+fi
