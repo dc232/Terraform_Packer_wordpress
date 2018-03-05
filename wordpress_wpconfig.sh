@@ -1,6 +1,11 @@
 #!/bin/bash
 #cd /usr/share/nginx/html
 SALTS=$(curl https://api.wordpress.org/secret-key/1.1/salt/)
+echo "debug code"
+ls -l /var/www/html/
+sleep 2
+ls -l /var/www/html/wordpress
+sleep 2
 sudo mv /var/www/html/wordpress/wp-config.php /var/www/html/wordpress/wp-config.php.bak
 sudo cat << EOF >> /var/www/html/wordpress/wp-config.php
 <?php
