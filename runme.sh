@@ -118,8 +118,9 @@ sleep 1
  #o is the the only mactching
  #l is the filre with matches
  #line above gives ami id automatiaclly for deployment
-terraform init
-terraform apply Packer_Terraform/Packer_Newly_Created_AMI.tf -auto-approve
+mv Packer_Terraform/Packer_Newly_Created_AMI.tf .. #moves file up a level 
+sed -i 's/#//g' Packer_Newly_Created_AMI.tf
+terraform apply
 }
 
 
