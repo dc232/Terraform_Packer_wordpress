@@ -31,6 +31,7 @@ sleep 2
 sed -i.bak 's/dbhost/'$TERRAFORM_DATABBASE_ENDPOINT'/' ../wordpress_wpconfig.sh
 sed -i 's/dbusername/'$TERRAFORM_DATABBASE_USERNAME'/' ../wordpress_wpconfig.sh
 sed -i 's/dbpassword/'$TERRAFORM_DATABASE_PASSWORD'/' ../wordpress_wpconfig.sh
+cd ..
 }
 packer_run_wordpress_AMI_creation () {
 
