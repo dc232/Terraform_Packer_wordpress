@@ -8,11 +8,30 @@ TERRAFORM_BIN="echo $(which terraform)"
 TERRAFORM_VERSION="0.11.3"
 
 
-#run script 1st then add secrets if needed
-#RDS_Secret_Management () {
-#    cp secret.tf RDS/
+RDS_Terraform_init () {
+cd RDS/
+echo "creating RDS infrastructure with AWS credentials provided"
+terraform init
+terraform apply -auto-approve | tee RDS_build.log
+echo "showing terraform computed changesfor RDS"
+sleep 1 
+terraform show 
+TERRAFORM_DATABBASE_ENDPOINT=$(terraform show | grep endpoint | sed 's/endpoint//g' | tr -d = | tr -d ' ')
+TERRAFORM_DATABBASE_USERNAME=$(terraform show | grep username | sed 's/username//g' | tr -d = | tr -d ' ')
+TERRAFORM_DATABASE_PASSWORD=$(terraform show | grep password | sed 's/password//g' | tr -d = | tr -d ' ')
+cat << EOF
+######################################################
+Substituting password, username and database endpoint
+for the computed values
+######################################################
+EOF
 
-#}
+sleep 2
+#slight problem this needs to run before packer, i.e RDS need to made 1st beofre packer runs
+sed -i.bak 's/dbhost/'$TERRAFORM_DATABBASE_ENDPOINT'/' ../wordpress_wpconfig.sh
+sed -i 's/dbusername/'$TERRAFORM_DATABBASE_USERNAME'/' ../wordpress_wpconfig.sh
+sed -i 's/dbpassword/'$TERRAFORM_DATABASE_PASSWORD'/' ../wordpress_wpconfig.sh
+}
 packer_run_wordpress_AMI_creation () {
 
 if [ "$PACKER_BIN" ]; then
@@ -21,7 +40,7 @@ sleep 1
 packer validate firstrun.json
 sleep 1
 echo "Building packer iamge from fistrun.json, please ensure AWS secret and Access keys have been specified/setup as well as AWS Region"
- packer build -machine-readable firstrun.json | tee build.log
+packer build -machine-readable firstrun.json | tee build.log
  #creates a log called build.log but also displays the machine reable output to standard output
 else
 echo "installing packer to /usr/bin/packer "
@@ -97,25 +116,6 @@ terraform apply -auto-approve #auto-approve allows for the suppression of confir
 #deploys the infrasture we still know what changes 
 #thanks to terraform plan altohugh terraform apply now does the same thing 
 #as plan but promts us to approve the changes before applying thats the only diffrece between them
-echo "showing terraform computed changes"
-sleep 1 
-terraform show 
-TERRAFORM_DATABBASE_ENDPOINT=$(terraform show | grep endpoint | sed 's/endpoint//g' | tr -d = | tr -d ' ')
-TERRAFORM_DATABBASE_USERNAME=$(terraform show | grep username | sed 's/username//g' | tr -d = | tr -d ' ')
-TERRAFORM_DATABASE_PASSWORD=$(terraform show | grep password | sed 's/password//g' | tr -d = | tr -d ' ')
-
-cat << EOF
-######################################################
-Substituting password, username and database endpoint
-for the computed values
-######################################################
-EOF
-
-sleep 2
-#slight problem this needs to run before packer, i.e RDS need to made 1st beofre packer runs
-sed -i.bak 's/dbhost/'$TERRAFORM_DATABBASE_ENDPOINT'/' wordpress_wpconfig.sh
-sed -i 's/dbusername/'$TERRAFORM_DATABBASE_USERNAME'/' wordpress_wpconfig.sh
-sed -i 's/dbpassword/'$TERRAFORM_DATABASE_PASSWORD'/' wordpress_wpconfig.sh
 
 #a terraform.tsstate file should be created 
 #when the terraform code executes sucessfully 
@@ -131,6 +131,7 @@ fi
 
 
 overall_script () {
+RDS_Terraform_init
 packer_run_wordpress_AMI_creation
 terraform_check
 }
@@ -158,6 +159,9 @@ sleep 1
     sleep 1
     sed -i 's/Region/'$AWS_VAR_REGION'/' Secrets.tf
     sed -i 's/#//g' Secrets.tf
+    echo "copying Secrets file into RD/ folder to initalise RDS setup"
+    sleep 2
+    cp Secrets.tf RDS/
     echo "Proceeding to run the rest of the script"
     sleep 1
     overall_script
