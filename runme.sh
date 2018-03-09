@@ -128,6 +128,9 @@ sudo unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip -d /usr/bin
 fi
 }
 
+ssh_setup () {
+    ssh -i key/wordpress_terraform_key ubuntu@elasticip
+}
 
 overall_script () {
 RDS_Terraform_init
