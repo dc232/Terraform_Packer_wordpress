@@ -177,7 +177,9 @@ sleep 1
 echo "moving default nginx configuration in dir /etc/nginx/conf.d/"
 sleep 1
 sudo mv /etc/nginx/conf.d/default.conf /etc/nginx/
-sudo cat <<EOF >> /etc/nginx/conf.d/wordpress.conf
+echo "creating nginx configuration file"
+sleep 1
+sudo cat << EOF >>wordpress.conf
 server {
         listen 80;
         listen [::]:80 default_server;
@@ -210,6 +212,9 @@ server {
         }
 }
 EOF
+echo "moving nginx confogiration"
+sleep 1
+sudo mv wordpress.conf /etc/nginx/conf.d/
 echo "checking to see if file was created (debug code)"
 wordpress_configuration_file="/etc/nginx/conf.d/wordpress.conf"
 if ["$wordpress_configuration_file"]; then
