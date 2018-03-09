@@ -212,9 +212,12 @@ server {
         }
 }
 EOF
-echo "moving nginx confogiration"
+echo "moving nginx configuration"
 sleep 1
+ls -l 
 sudo mv wordpress.conf /etc/nginx/conf.d/
+ls -l /etc/nginx/conf.d/
+sleep 5
 echo "checking to see if file was created (debug code)"
 wordpress_configuration_file="/etc/nginx/conf.d/wordpress.conf"
 if ["$wordpress_configuration_file"]; then
