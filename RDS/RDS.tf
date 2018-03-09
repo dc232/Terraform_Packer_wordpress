@@ -11,7 +11,7 @@ resource "aws_db_instance" "RDS" {
   engine_version       = "10.0.24"
   instance_class       = "db.t2.micro"
   name                 = "MariaDB_Wordpress"
-  username             = "worpress"
+  username             = "wordress"
   password             = "Wordpress"
   db_subnet_group_name = "default"
   parameter_group_name = "default.mariadb10.0"

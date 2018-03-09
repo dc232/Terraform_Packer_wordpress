@@ -161,7 +161,7 @@ sleep 1
     sleep 1
     sed -i 's/Region/'$AWS_VAR_REGION'/' Secrets.tf
     sed -i 's/#//g' Secrets.tf
-    echo "copying Secrets file into RD/ folder to initalise RDS setup"
+    echo "copying Secrets file into RDS/ folder to initalise RDS setup"
     sleep 2
     cp Secrets.tf RDS/
     echo "Proceeding to run the rest of the script"
