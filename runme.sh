@@ -108,7 +108,7 @@ above directly before the appliction of terraform plan
 ######################################################
 EOF
 sleep 4 
-terraform plan
+#terraform plan
 echo "running terraform apply"
 sleep 1
 terraform apply -auto-approve #auto-approve allows for the suppression of confirmation promts and automatically 
