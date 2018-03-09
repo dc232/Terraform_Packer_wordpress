@@ -7,6 +7,12 @@ PACKER_VERSION="1.2.0"
 TERRAFORM_BIN="echo $(which terraform)"
 TERRAFORM_VERSION="0.11.3"
 
+
+#run script 1st then add secrets if needed
+#RDS_Secret_Management () {
+#    cp secret.tf RDS/
+
+#}
 packer_run_wordpress_AMI_creation () {
 
 if [ "$PACKER_BIN" ]; then
@@ -34,6 +40,19 @@ fi
 }
 
 
+Terraform_Deploy_Packer_AMI () {
+echo "Setting up Newly created Wordpress AMI for deployment"
+sleep 1
+ TERRAFORM_AMI_NAME=$(egrep -m1 -oe 'ami-.{8}' build.log)
+ sed -i 's/AMI_ID/'$TERRAFORM_AMI_NAME'/' Packer_Terraform/Packer_Newly_Created_AMI.tf
+ #where m is the max count 
+ #o is the the only mactching
+ #l is the filre with matches
+ #line above gives ami id automatiaclly for deployment
+mv Packer_Terraform/Packer_Newly_Created_AMI.tf .. #moves file up a level 
+sed -i 's/#//g' Packer_Newly_Created_AMI.tf
+}
+
 terraform_check () {
 if [ "$TERRAFORM_BIN" ]; then
 cat << EOF
@@ -57,6 +76,8 @@ echo "creating puplic and private key pair"
 sleep 1
 mkdir key
 ssh-keygen -t rsa -b 4906 -f key/wordpress_terraform_key -C wordpress_terrafrom_key_pair -N '' #where b means bits t means type and f means filename C means comment, N mean to set the passphrase ib this case there is no passphase
+
+Terraform_Deploy_Packer_AMI
 
 echo "Initialising terraform backend which means that it will look for the AWS service provider plugin"
 sleep 2
@@ -91,7 +112,7 @@ for the computed values
 EOF
 
 sleep 2
-
+#slight problem this needs to run before packer, i.e RDS need to made 1st beofre packer runs
 sed -i.bak 's/dbhost/'$TERRAFORM_DATABBASE_ENDPOINT'/' wordpress_wpconfig.sh
 sed -i 's/dbusername/'$TERRAFORM_DATABBASE_USERNAME'/' wordpress_wpconfig.sh
 sed -i 's/dbpassword/'$TERRAFORM_DATABASE_PASSWORD'/' wordpress_wpconfig.sh
@@ -109,25 +130,9 @@ fi
 }
 
 
-Terraform_Deploy_Packer_AMI () {
-echo "Deploying Newly created Wordpress AMI"
-sleep 1
- TERRAFORM_AMI_NAME=$(egrep -m1 -oe 'ami-.{8}' build.log)
- sed -i 's/AMI_ID/'$TERRAFORM_AMI_NAME'/' Packer_Terraform/Packer_Newly_Created_AMI.tf
- #where m is the max count 
- #o is the the only mactching
- #l is the filre with matches
- #line above gives ami id automatiaclly for deployment
-mv Packer_Terraform/Packer_Newly_Created_AMI.tf .. #moves file up a level 
-sed -i 's/#//g' Packer_Newly_Created_AMI.tf
-terraform apply
-}
-
-
 overall_script () {
-terraform_check
 packer_run_wordpress_AMI_creation
-Terraform_Deploy_Packer_AMI
+terraform_check
 }
 
 Secret_Management () {
