@@ -63,12 +63,11 @@ Terraform_Deploy_Packer_AMI () {
 echo "Setting up Newly created Wordpress AMI for deployment"
 sleep 1
  TERRAFORM_AMI_NAME=$(egrep -m1 -oe 'ami-.{8}' build.log)
- sed -i 's/AMI_ID/'$TERRAFORM_AMI_NAME'/' Packer_Terraform/Packer_Newly_Created_AMI.tf
+ sed -i 's/AMI_ID/'$TERRAFORM_AMI_NAME'/' Packer_Newly_Created_AMI.tf
  #where m is the max count 
  #o is the the only mactching
  #l is the filre with matches
  #line above gives ami id automatiaclly for deployment
-mv Packer_Terraform/Packer_Newly_Created_AMI.tf .. #moves file up a level 
 sed -i 's/#//g' Packer_Newly_Created_AMI.tf
 }
 
